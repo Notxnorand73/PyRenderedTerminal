@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="PyRenderedTerminal",
+    name="pyrenderedterminal",
     version="0.1.0",
     author="Notxnorand",
     author_email="notxnor33415@gmail.com",
@@ -13,7 +13,9 @@ setup(
     python_requires=">=3.7",
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: None",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "Intended Audience :: Education",
     ],
+    keywords="terminal graphics python education learning",
 )
