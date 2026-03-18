@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to PRT</title>
+<style>
+/* Base page styling */
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #1e3a8a; /* deep Python blue background */
+    color: #facc15; /* bright Python yellow text */
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Floating hero character */
+.hero {
+    font-weight: bold;
+    color: #facc15; /* bright yellow */
+    display: inline-block;
+    animation: float 1s ease-in-out infinite alternate;
+    font-size: 2rem;
+    margin-left: 4px;
+}
+@keyframes float {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-8px); }
+}
+
+/* Boxes for sections with varying shades and cyan highlights */
+.box {
+    border-left: 5px solid #0095ff; /* cyan highlight */
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    max-width: 700px;
+    width: 90%;
+    box-shadow: 3px 3px 15px rgba(0,0,0,0.4);
+    color: #f0f9ff;
+}
+
+/* Different box shades */
+.box:nth-child(1) { background-color: rgba(30, 58, 138, 0.9); } /* darker blue */
+.box:nth-child(2) { background-color: rgba(50, 100, 200, 0.85); } /* medium blue */
+.box:nth-child(3) { background-color: rgba(70, 130, 250, 0.85); } /* lighter blue */
+
+/* Buttons */
+.button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    background-color: #1e3a8a; /* cyan button */
+    color: #00ffff; /* dark text */
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0.5rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s, background-color 0.2s;
+}
+.button:hover {
+    background-color: #33ffff;
+    transform: scale(1.05);
+}
+
+/* Headers */
+h1 { font-size: 3rem; text-align:center; margin-bottom:0.5rem; }
+h2 { text-align:center; margin-top:1rem; }
+p { font-size:1.2rem; line-height:1.5; text-align:center; }
+ul { text-align:left; margin:0.5rem 0 0 1.5rem; }
+
+nav {
+    margin-top: 1rem;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h1>Welcome to PRT! <span class="hero">@</span></h1>
+    <p>
+        PRT (PyRenderedTerminal) lets you create <b>fun terminal games and animations</b> using Python.
+        It’s simple enough for beginners and flexible enough for experienced programmers.
+    </p>
+</div>
+
+<div class="box">
+    <h2>Why PRT?</h2>
+    <p>PRT is perfect for learning:</p>
+    <ul>
+        <li>Basic programming concepts</li>
+        <li>Sprites and animation</li>
+        <li>Coordinate systems and loops</li>
+        <li>Interactive terminal-based games</li>
+    </ul>
+</div>
+
+<div class="box">
+    <nav>
+        <a href="docs.html" class="button"><strong>Documentation</strong></a>
+        <a href="download.html" class="button"><strong>Download PRT</strong></a>
+    </nav>
+</div>
+
+</body>
+</html>
