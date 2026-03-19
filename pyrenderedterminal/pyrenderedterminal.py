@@ -1,5 +1,12 @@
 import time
 from typing import Optional
+import sys
+if sys.platform == "win32":
+    import msvcrt
+else:
+    import select
+    import tty
+    import termios
 
 # PyRenderedTerminal - Terminal but Graphical
 
@@ -27,7 +34,7 @@ class Scene:
     self.scenestr = "\n".join("".join(y) for y in self.scene)
   def render(self):
     self.update()
-    print("\033[H" + self.scenestr, end="")
+    print("\033[2J" + self.scenestr, end="")
   def draw(self, x: int, y: int, symbol: str):
     if len(str(symbol)) != 1:
       return False
@@ -36,7 +43,6 @@ class Scene:
     if not (0 <= x < self.width and 0 <= y < self.height):
       return False
     self.scene[y][x] = str(symbol)
-    return True
   def clear(self):
     self.scene = [[self.bg for _ in range(self.width)] for _ in range(self.height)]
     self.update()
@@ -50,30 +56,21 @@ def stamp(scene: Scene, x: int, y: int, text: str, transparent_char: Optional[st
     for jdx, j in enumerate(i):
       if j == transparent_char:
         continue
-      res = scene.draw(x+jdx, y+idx, j)
-      if not res:
-        break
-
-def rect(scene: Scene, x: int, y: int, width: int, height: int, char: str):
-  for i in range(y, y+height):
-    for j in range(x, x+width):
-      scene.draw(j, i, char)
-
-def collides(actor1, actor2):
-  w1, h1 = len(actor1.sprite.split("\n")[0]), len(actor1.sprite.split("\n"))
-  w2, h2 = len(actor2.sprite.split("\n")[0]), len(actor2.sprite.split("\n"))
-  return not (actor1.x + w1 <= actor2.x or actor1.x >= actor2.x + w2 or actor1.y + h1 <= actor2.y or actor1.y >= actor2.y + h2)
-
+      scene.draw(x+jdx, y+idx, j)
+    
 class Actor:
   def __init__(self, x: int, y: int, spritesheet: dict):
     self.x = x
     self.y = y
     self.spritesheet = spritesheet
     self.sprite = None
+    self.asset("main")
   def asset(self, sprite: str):
     if not (sprite in self.spritesheet):
       return False
     self.sprite = self.spritesheet[sprite]
+    self.width = len(max(self.sprite.split("\n"), key=len))
+    self.height = len(self.sprite.split("\n"))
     return True
   def goto(self, x: int, y: int):
     self.x = x
@@ -89,4 +86,38 @@ class Actor:
     if self.sprite is None:
       return False
     stamp(scene, self.x, self.y, self.sprite, transparent_char)
-  
+  def wrap(self, scene: Scene):
+    self.x %= scene.width
+    self.y %= scene.height
+  def clamp(self, scene: Scene):
+    self.x = max(0, min(self.x, scene.width - self.width))
+    self.y = max(0, min(self.y, scene.height - self.height))
+
+
+def rect(scene: Scene, x: int, y: int, width: int, height: int, char: str):
+  for i in range(y, y+height):
+    for j in range(x, x+width):
+      scene.draw(j, i, char)
+
+def collides(actor1: Actor, actor2: Actor):
+  w1, h1 = actor1.width, actor1.height
+  w2, h2 = actor2.width, actor2.height
+  if (w1 is None) and (w2 is None):
+    return False
+  return not (actor1.x + w1 <= actor2.x or actor1.x >= actor2.x + w2 or 
+              actor1.y + h1 <= actor2.y or actor1.y >= actor2.y + h2)
+
+def keybind():
+  if sys.platform == "win32":
+    if msvcrt.kbhit():
+      return msvcrt.getch().decode("utf-8", errors="ignore")
+    return None
+  else:
+    old_settings = termios.tcgetattr(sys.stdin)
+    try:
+      tty.setcbreak(sys.stdin.fileno())
+      if select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], []):
+        return sys.stdin.read(1)
+    finally:
+      termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
+    return None
