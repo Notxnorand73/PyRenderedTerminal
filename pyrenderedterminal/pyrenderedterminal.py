@@ -93,6 +93,34 @@ class Actor:
     self.x = max(0, min(self.x, scene.width - self.width))
     self.y = max(0, min(self.y, scene.height - self.height))
 
+class Layerer:
+  def __init__(self, width: int = 24, height: int = 8, bg: str = "."):
+    self.width = width
+    self.height = height
+    self.bg = bg
+    self.layers: list[Scene] = []
+    self.scenestr = ""
+  def add_layer(self, scene: Scene):
+    if scene.width != self.width or scene.height != self.height:
+        return False
+    self.layers.append(scene)
+  def remove_layer(self, scene: Scene):
+    self.layers.remove(scene)
+  def update(self, transparent_char: Optional[str] = None):
+    final = [[self.bg for _ in range(self.width)] for _ in range(self.height)]
+    for layer in self.layers:
+      for y in range(self.height):
+        for x in range(self.width):
+          char = layer.get(x, y)
+          if char is None:
+            continue
+          if transparent_char and char == transparent_char:
+            continue
+          final[y][x] = char
+    self.scenestr = "\n".join("".join(row) for row in final)
+  def render(self):
+    self.update()
+    print("\033[2J" + self.scenestr, end="")
 
 def rect(scene: Scene, x: int, y: int, width: int, height: int, char: str):
   for i in range(y, y+height):
