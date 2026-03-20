@@ -30,6 +30,14 @@ class Scene:
     self.bg = bg
     self.scene = [[bg for _ in range(width)] for _ in range(height)]
     self.update()
+    print("""
++------------------------------------------------------------+
+| PyRenderedTerminal 0.1.2.1 Alpha : Terminal but Visual     |
+| Published under the MIT license                            |
++------------------------------------------------------------+
+| GitHub: https://github.com/Notxnorand73/PyRenderedTerminal |
++------------------------------------------------------------+
+""")
   def update(self):
     self.scenestr = "\n".join("".join(y) for y in self.scene)
   def render(self):
