@@ -81,7 +81,12 @@ class Actor:
   def add(self, sprite: str, name: str):
     self.spritesheet[name] = sprite
   def clone(self):
-    return Actor(self.x, self.y, self.spritesheet.copy())
+    newactor = Actor(self.x, self.y, self.spritesheet.copy())
+    key_list = [key for key, val in self.spritesheet.items() if val == self.sprite]
+    if key_list is None:
+      return None
+    newactor.asset(self.spritesheet[key_list[0]])
+    return newactor
   def stamp(self, scene: Scene, transparent_char: str = " "):
     if self.sprite is None:
       return False
