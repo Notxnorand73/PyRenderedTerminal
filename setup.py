@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="pyrenderedterminal",
-    version="0.1.2.1",
+    version="0.1.2.2",
     author="Notxnorand",
     author_email="notxnor33415@gmail.com",
     description="A simple terminal graphics library for learning programming",
