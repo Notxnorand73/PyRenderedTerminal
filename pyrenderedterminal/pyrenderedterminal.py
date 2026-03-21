@@ -103,8 +103,6 @@ class Actor:
   def clamp(self, scene: Scene):
     self.x = max(0, min(self.x, scene.width - self.width))
     self.y = max(0, min(self.y, scene.height - self.height))
-  def delete(self):
-    del self
 
 class Layerer:
   def __init__(self, width: int = 24, height: int = 8, bg: str = "."):
