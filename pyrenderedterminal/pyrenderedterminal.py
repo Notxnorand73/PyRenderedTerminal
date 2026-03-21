@@ -32,7 +32,7 @@ class Scene:
     self.update()
     print("""
 +------------------------------------------------------------+
-| PyRenderedTerminal 0.1.2.3 Alpha : Terminal but Visual     |
+| PyRenderedTerminal 0.1.2.2 Alpha : Terminal but Visual     |
 | Published under the MIT license                            |
 +------------------------------------------------------------+
 | GitHub: https://github.com/Notxnorand73/PyRenderedTerminal |
@@ -67,7 +67,7 @@ def stamp(scene: Scene, x: int, y: int, text: str, transparent_char: Optional[st
       scene.draw(x+jdx, y+idx, j)
     
 class Actor:
-  def __init__(self, x: int, y: int, spritesheet: dict):
+  def __init__(self, x: int, y: int, spritesheet: dict[str, str]):
     self.x = x
     self.y = y
     self.spritesheet = spritesheet
@@ -76,6 +76,7 @@ class Actor:
   def asset(self, sprite: str):
     if not (sprite in self.spritesheet):
       return False
+    self.spritename = sprite
     self.sprite = self.spritesheet[sprite]
     self.width = len(max(self.sprite.split("\n"), key=len))
     self.height = len(self.sprite.split("\n"))
@@ -90,10 +91,7 @@ class Actor:
     self.spritesheet[name] = sprite
   def clone(self):
     newactor = Actor(self.x, self.y, self.spritesheet.copy())
-    key_list = [key for key, val in self.spritesheet.items() if val == self.sprite]
-    if key_list is None:
-      return None
-    newactor.asset(key_list[0])
+    newactor.asset(self.spritename)
     return newactor
   def stamp(self, scene: Scene, transparent_char: str = " "):
     if self.sprite is None:
