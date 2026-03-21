@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyrenderedterminal"
+version = "0.1.2.4"
+description = "A simple terminal graphics library for learning programming"
+readme = "README.md"
+requires-python = ">=3.9"
+
+authors = [
+    { name = "Notxnorand", email = "notxnor33415@gmail.com" }
+]
+
+keywords = ["terminal", "graphics", "python", "education", "learning"]
+
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Education",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Games/Entertainment",
+]
+
+dependencies = []
+
+[project.urls]
+Documentation = "https://github.com/Notxnorand73/PyRenderedTerminal/blob/main/docs.html"
+Source = "https://github.com/Notxnorand73/PyRenderedTerminal"
+
+[tool.setuptools.packages.find]
+where = ["."]
