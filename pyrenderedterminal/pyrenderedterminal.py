@@ -42,7 +42,7 @@ class Scene:
     self.scenestr = "\n".join("".join(y) for y in self.scene)
   def render(self):
     self.update()
-    print("\033[2J" + self.scenestr, end="")
+    print("\033[2J\033[H" + self.scenestr, end="")
   def draw(self, x: int, y: int, symbol: str):
     if len(str(symbol)) != 1:
       return False
@@ -105,6 +105,8 @@ class Actor:
   def clamp(self, scene: Scene):
     self.x = max(0, min(self.x, scene.width - self.width))
     self.y = max(0, min(self.y, scene.height - self.height))
+  def delete(self):
+    del self
 
 class Layerer:
   def __init__(self, width: int = 24, height: int = 8, bg: str = "."):
