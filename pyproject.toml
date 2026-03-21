@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -31,11 +31,11 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Documentation = "https://github.com/Notxnorand73/PyRenderedTerminal/blob/main/docs.html"
-Source = "https://github.com/Notxnorand73/PyRenderedTerminal"
+"Documentation" = "https://github.com/Notxnorand73/PyRenderedTerminal/blob/main/docs.html"
+"Source" = "https://github.com/Notxnorand73/PyRenderedTerminal"
 
 [project.license]
-license = { file = "LICENSE" }
+file = "LICENSE"
 
 [tool.setuptools.packages.find]
 where = ["."]
