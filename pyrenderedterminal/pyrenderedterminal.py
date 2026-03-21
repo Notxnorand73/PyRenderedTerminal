@@ -141,7 +141,7 @@ def rect(scene: Scene, x: int, y: int, width: int, height: int, char: str):
 def collides(actor1: Actor, actor2: Actor):
   w1, h1 = actor1.width, actor1.height
   w2, h2 = actor2.width, actor2.height
-  if (w1 is None) and (w2 is None):
+  if (w1 is None) or (w2 is None):
     return False
   return not (actor1.x + w1 <= actor2.x or actor1.x >= actor2.x + w2 or 
               actor1.y + h1 <= actor2.y or actor1.y >= actor2.y + h2)
