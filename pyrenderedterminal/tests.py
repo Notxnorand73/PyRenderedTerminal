@@ -14,14 +14,11 @@ class TestPyRenderedTerminal(unittest.TestCase):
         self.assertEqual(self.scene.get(0, 0), ".")
 
     def test_draw_and_get(self):
-        # Valid draw
         self.scene.draw(2, 2, "#")
         self.assertEqual(self.scene.get(2, 2), "#")
-        
-        # Invalid draws (should return False and not change state)
-        self.assertFalse(self.scene.draw(11, 2, "X")) # Out of bounds X
-        self.assertFalse(self.scene.draw(2, 6, "X"))  # Out of bounds Y
-        self.assertFalse(self.scene.draw(2, 2, "XX")) # Too many chars
+        self.assertFalse(self.scene.draw(11, 2, "X"))
+        self.assertFalse(self.scene.draw(2, 6, "X"))
+        self.assertFalse(self.scene.draw(2, 2, "XX"))
 
     def test_clear_scene(self):
         self.scene.draw(1, 1, "A")
@@ -45,24 +42,18 @@ class TestPyRenderedTerminal(unittest.TestCase):
         self.assertEqual(player.y, 1)
 
     def test_actor_clamping(self):
-        # 2x2 sprite
         sprites = {"main": "##\n##"}
-        player = Actor(8, 3, sprites) # Right at the edge of a 10x5 scene
-        
-        # Try to move out of bounds
+        player = Actor(8, 3, sprites)
         player.move(10, 10)
         player.clamp(self.scene)
-        
-        # Should be clamped to (SceneWidth - SpriteWidth)
         self.assertEqual(player.x, 8) 
         self.assertEqual(player.y, 3)
-
-    ## --- Logic & Physics Tests ---
+        
     def test_collision_detection(self):
-        s1 = {"main": "##\n##"} # 2x2
+        s1 = {"main": "##\n##"}
         a1 = Actor(0, 0, s1)
-        a2 = Actor(1, 1, s1) # Overlapping
-        a3 = Actor(5, 5, s1) # Far away
+        a2 = Actor(1, 1, s1)
+        a3 = Actor(5, 5, s1)
         
         self.assertTrue(collides(a1, a2))
         self.assertFalse(collides(a1, a3))
@@ -72,7 +63,7 @@ class TestPyRenderedTerminal(unittest.TestCase):
         rect(self.scene, 0, 0, 2, 2, "R")
         self.assertEqual(self.scene.get(0, 0), "R")
         self.assertEqual(self.scene.get(1, 1), "R")
-        self.assertEqual(self.scene.get(2, 2), ".") # Just outside
+        self.assertEqual(self.scene.get(2, 2), ".")
 
     def test_layering_logic(self):
         layerer = Layerer(10, 5, bg=".")
@@ -80,13 +71,12 @@ class TestPyRenderedTerminal(unittest.TestCase):
         scene2 = Scene(10, 5, bg=".")
         
         scene1.draw(0, 0, "1")
-        scene2.draw(0, 0, "2") # This should overlap scene1
+        scene2.draw(0, 0, "2")
         
         layerer.add_layer(scene1)
         layerer.add_layer(scene2)
         
         layerer.update()
-        # Last layer added should be on top
         self.assertIn("2", layerer.scenestr.split("\n")[0])
     
     def test_layer_size_mismatch(self):
