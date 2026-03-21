@@ -34,5 +34,8 @@ dependencies = []
 Documentation = "https://github.com/Notxnorand73/PyRenderedTerminal/blob/main/docs.html"
 Source = "https://github.com/Notxnorand73/PyRenderedTerminal"
 
+[project.license]
+license = { file = "LICENSE" }
+
 [tool.setuptools.packages.find]
 where = ["."]
