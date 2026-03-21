@@ -70,6 +70,8 @@ class Actor:
   def __init__(self, x: int, y: int, spritesheet: dict[str, str]):
     self.x = x
     self.y = y
+    self.width = None
+    self.height = None
     self.spritesheet = spritesheet
     self.sprite = None
     self.asset("main")
