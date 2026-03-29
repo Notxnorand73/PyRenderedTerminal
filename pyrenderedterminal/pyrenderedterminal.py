@@ -33,7 +33,7 @@ class Scene:
     self.update()
     print("""
 +------------------------------------------------------------+
-| PyRenderedTerminal 0.1.2.5 Alpha : Terminal but Visual     |
+| PyRenderedTerminal 0.1.3 Alpha : Terminal but Visual     |
 | Published under the MIT license                            |
 +------------------------------------------------------------+
 | GitHub: https://github.com/Notxnorand73/PyRenderedTerminal |
