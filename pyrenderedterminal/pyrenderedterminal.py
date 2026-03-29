@@ -1,5 +1,6 @@
 import time
 from typing import Optional
+import json
 import sys
 if sys.platform == "win32":
     import msvcrt
@@ -103,6 +104,8 @@ class Actor:
     self.x %= scene.width
     self.y %= scene.height
   def clamp(self, scene: Scene):
+    if (self.width is None) or (self.height is None):
+      return
     self.x = max(0, min(self.x, scene.width - self.width))
     self.y = max(0, min(self.y, scene.height - self.height))
 
@@ -135,6 +138,35 @@ class Layerer:
     self.update()
     print("\033[2J" + self.scenestr, end="")
 
+class PRT__unknown_object:
+  def __str__(self):
+    return '[unknown prt object]'
+  def __repr__(self):
+    return '???'
+  
+class Assets:
+  player_1 = 'o\nO'
+  sword = '\\\n|\nT'
+  @staticmethod
+  def healthbar(percent, width=4, reversed=False, full="#", emptied="-"):
+    percent = max(0, min(100, percent))
+    filled = int((percent / 100) * width)
+    empty = width - filled
+    if reversed:
+      return "[" + emptied * empty + full * filled + "]"
+    return "[" + full * filled + emptied * empty + "]"
+  @staticmethod
+  def box(width, height):
+    if width < 2 or height < 2:
+        return ''
+    boxtop = f"+{'-' * (width - 2)}+"
+    middle_row = f"|{' ' * (width - 2)}|"
+    box_body = '\n'.join([middle_row for _ in range(height - 2)])
+    if height == 2:
+        return f"{boxtop}\n{boxtop}" 
+    return f"{boxtop}\n{box_body}\n{boxtop}"
+  secret = PRT__unknown_object()
+
 def rect(scene: Scene, x: int, y: int, width: int, height: int, char: str):
   for i in range(y, y+height):
     for j in range(x, x+width):
@@ -143,10 +175,17 @@ def rect(scene: Scene, x: int, y: int, width: int, height: int, char: str):
 def collides(actor1: Actor, actor2: Actor):
   w1, h1 = actor1.width, actor1.height
   w2, h2 = actor2.width, actor2.height
-  if (w1 is None) or (w2 is None):
+  if (w1 is None) or (h1 is None) or (w2 is None) or (h2 is None):
     return False
   return not (actor1.x + w1 <= actor2.x or actor1.x >= actor2.x + w2 or 
               actor1.y + h1 <= actor2.y or actor1.y >= actor2.y + h2)
+
+def load(file):
+  try:
+    with open(file, 'r') as f:
+      return json.load(f)
+  except:
+    return {'main': PRT__unknown_object()}
 
 def keybind():
   if sys.platform == "win32":
