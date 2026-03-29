@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="pyrenderedterminal",
-    version="0.1.2.5",
+    version="0.1.3",
     author="Notxnorand",
     author_email="notxnor33415@gmail.com",
     description="A simple terminal graphics library for learning programming",
